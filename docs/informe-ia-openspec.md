@@ -1,128 +1,112 @@
-# Memòria de Pràctica - Ús d'IA amb Spec-Driven Development (OpenSpec)
+# Document PDF - Ús d'IA amb desenvolupament guiat per especificació (OpenSpec)
 
 Projecte: `tr3IzanRodriguez`  
 Data: 22/04/2026  
-Feature treballada: `add-health-powerups`
+Canvi treballat: `add-health-powerups`
 
 ## 1) Explicació de la funcionalitat
 
-La funcionalitat implementada és un sistema de **powerups de vida** distribuïts pel mapa principal (`Core`).
+La funcionalitat implementada és un sistema de **powerups de vida** al mapa principal del joc (`Core`).
 
-Quan el jugador passa per sobre d'un pickup:
-- si té component `Health`, rep curació,
-- el pickup desapareix temporalment,
-- i torna a aparèixer passat un temps de respawn configurat.
+En la pràctica, això significa que:
+- es defineixen punts de curació en una configuració declarativa,
+- el joc genera aquests pickups automàticament en carregar l'escena,
+- quan el jugador entra al trigger del pickup i té component `Health`, recupera vida,
+- el pickup es desactiva temporalment i reapareix amb un temps de respawn configurable.
 
-La part important és que no està hardcodejada: la posició i valors de cada pickup es defineixen en una especificació/configuració declarativa (`powerups.json`), de manera que podem ajustar el balanç del joc sense tocar la lògica C#.
+Aquesta decisió és important perquè evita hardcodejar posicions i valors en codi: el balanç de gameplay (quant cura cada pickup, on apareix i cada quant torna) es pot ajustar des de fitxer.
 
 ## 2) Procés seguit amb la IA
 
-He seguit un flux Spec-Driven real, no improvisat:
+S'ha treballat seguint metodologia Spec-Driven real, no només implementació directa.
 
-1. Preparació d'entorn
-- Instal·lació i validació d'OpenSpec CLI.
-- Inicialització d'OpenSpec al repositori.
-
-2. Definició formal abans de programar
-- `proposal.md`: per què calia la funcionalitat i quin impacte tindria.
+### 2.1 Definició (abans de programar)
+Es va crear una change OpenSpec i es va completar l'especificació en ordre:
+- `proposal.md`: motiu i abast de la millora.
 - `design.md`: decisions tècniques, riscos i límits.
 - `spec.md`: requisits verificables (spawn, curació, respawn).
-- `tasks.md`: pla d'implementació en passos petits.
+- `tasks.md`: pla d'implementació pas a pas.
 
-3. Implementació guiada per la spec
-- Càrrega de la spec (`OpenSpecPowerupSpec.cs`).
-- Comportament del pickup (`HealthPowerupPickup.cs`).
-- Spawn runtime a `Core` (`OpenSpecPowerupSpawner.cs`).
-- Config inicial (`Assets/Resources/OpenSpec/powerups.json`).
+### 2.2 Implementació guiada
+Amb la spec tancada, la IA va ajudar a generar i ajustar:
+- `Assets/Scripts/OpenSpec/OpenSpecPowerupSpec.cs`
+- `Assets/Scripts/OpenSpec/HealthPowerupPickup.cs`
+- `Assets/Scripts/OpenSpec/OpenSpecPowerupSpawner.cs`
+- `Assets/Resources/OpenSpec/powerups.json`
 
-4. Validació
-- Tancament de tasques i validació de la change.
-- Comprovació de build per assegurar que no era només teoria.
+### 2.3 Validació
+Després de la implementació:
+- es van revisar les tasques de la change,
+- es va validar que el comportament implementat encaixava amb la spec,
+- i es va deixar traçabilitat del procés a `docs/prompts-log.md`.
 
 ## 3) Principals problemes trobats
 
-### Problema 1: risc de “fer codi massa aviat”
-Al principi era fàcil caure en el típic flux de provar prompts i anar tocant codi sense tenir la definició tancada.
+### Problema A: tendència inicial a implementar massa aviat
+La IA (i el flux de treball) tendeix a anar directament a codi si no es força una fase de definició formal. Això pot donar resultats funcionals, però difícils d'avaluar metodològicament.
 
-### Problema 2: traçabilitat insuficient
-Tot i que la funcionalitat funcionava, sense evidència ordenada de prompts, errors i correccions la pràctica quedava fluixa a nivell d'avaluació.
+### Problema B: discrepància entre “funciona” i “compleix la spec”
+Que una funcionalitat sembli correcta en joc no garanteix que compleixi tots els casos esperats (per exemple, comportament amb objectes sense `Health` o respawn en condicions concretes).
 
-### Problema 3: tendència de la IA a donar solucions massa “optimistes”
-La IA sovint assumeix que una implementació és bona si compila o sembla coherent, però això no garanteix que estigui completament alineada amb el comportament definit al spec.
+### Problema C: traçabilitat insuficient en primeres iteracions
+Sense un registre clar de prompts i refinaments, costa justificar quines decisions es van prendre i per què. Aquest punt és crític per l'avaluació.
 
 ## 4) Decisions preses (canvis en prompts o spec)
 
-### Decisió A: imposar ordre metodològic
-Canvi de prompt:
-- de: "implementa els powerups"
-- a: "primer proposal/design/spec/tasks, després apply"
+### Decisió 1: forçar estructura de treball
+Es va canviar l'enfocament de prompt de "implementa això" a "defineix primer proposta, disseny, spec i pla".
 
-Resultat:
-- millor control de requisits,
-- menys desviacions,
-- procés més auditable.
+Impacte:
+- menys improvisació,
+- més coherència entre objectiu i resultat,
+- millor auditabilitat.
 
-### Decisió B: forçar validació explícita
-Canvi de prompt:
-- de: "ja està implementat"
-- a: "valida formalment la change i deixa evidència"
+### Decisió 2: afegir prompts de verificació explícita
+Es van introduir prompts específics per revisar desviacions respecte als requisits.
 
-Resultat:
-- no dependre de percepcions,
-- tenir comprovació objectiva.
+Impacte:
+- detecció més ràpida de inconsistències,
+- menys risc de donar per tancat un comportament incomplet.
 
-### Decisió C: reforçar traçabilitat
-Canvi de prompt:
-- de: "fes un resum"
-- a: "fes log cronològic amb error -> correcció -> impacte"
+### Decisió 3: reforçar la traçabilitat com a part de la implementació
+No s'ha tractat la traçabilitat com un annex final, sinó com una peça obligatòria del procés.
 
-Resultat:
-- es veu clarament què va fallar,
-- què es va canviar,
-- i per què es va canviar.
+Impacte:
+- cada error important queda associat a una correcció concreta,
+- es pot explicar clarament què es va canviar i per quin motiu.
 
 ## 5) Valoració crítica real (no superficial)
 
-En aquesta pràctica, la IA ha estat útil de veritat, però **només** quan s'ha treballat amb disciplina.
+L'IA ha estat molt útil per accelerar redacció tècnica i implementació, però no substitueix criteri d'enginyeria.
 
-Punts forts:
-- accelera molt la redacció inicial d'especificacions,
-- ajuda a transformar requisits en tasques concretes,
-- facilita iterar ràpidament en implementació.
+El que millor ha funcionat:
+- traduir objectius de gameplay en requisits verificables,
+- passar de requisits a codi funcional en poc temps,
+- iterar ràpidament quan la direcció estava clara.
 
-Punts febles observats:
-- si el prompt és ambigu, la IA omple buits amb suposicions,
-- tendeix a avançar massa ràpid cap a implementació,
-- pot donar una falsa sensació de "ja està" sense prou verificació.
+El que ha costat més:
+- mantenir consistència metodològica sense prompts estrictes,
+- evitar respostes massa optimistes quan faltava verificació,
+- separar "solució que compila" de "solució que compleix exactament la spec".
 
-Conclusió personal:
-- El valor no és "deixar que la IA programi sola".
-- El valor és saber **dirigir-la amb una especificació formal**, revisar el resultat i corregir desviacions amb criteri.
-- Quan això es fa bé, el resultat és consistent, defensable i avaluable.
+Conclusió:
+- El resultat final és bo i coherent amb el projecte,
+- però la part clau de la pràctica no és només el codi, sinó la qualitat del procés.
+- Quan es treballa amb especificació formal, prompts controlats i traçabilitat real, la IA aporta valor. Sense això, el risc de desviació és alt.
 
-## 6) Traçabilitat i anàlisi del procés
+## Annex breu d'evidències
 
-En aquesta entrega es cobreixen tots els punts de traçabilitat exigits:
-
-- Tots els prompts utilitzats durant definició, implementació i refinament estan registrats a `docs/prompts-log.md`.
-- Els errors detectats durant el procés estan documentats de forma explícita.
-- Cada error inclou la correcció aplicada i el seu efecte.
-- S'explica la relació directa entre cada problema i el canvi de prompt (o d'enfocament d'especificació).
-- La memòria inclou una reflexió crítica final sobre el comportament de la IA i la qualitat del resultat.
-
-## 7) Evidències i fitxers entregables
-
-- OpenSpec change:
+- Especificació OpenSpec utilitzada:
   - `openspec/changes/add-health-powerups/proposal.md`
   - `openspec/changes/add-health-powerups/design.md`
   - `openspec/changes/add-health-powerups/specs/health-powerups/spec.md`
   - `openspec/changes/add-health-powerups/tasks.md`
 
-- Implementació:
+- Implementació principal:
   - `Assets/Scripts/OpenSpec/OpenSpecPowerupSpec.cs`
   - `Assets/Scripts/OpenSpec/HealthPowerupPickup.cs`
   - `Assets/Scripts/OpenSpec/OpenSpecPowerupSpawner.cs`
   - `Assets/Resources/OpenSpec/powerups.json`
 
-- Traçabilitat:
+- Traçabilitat del procés:
   - `docs/prompts-log.md`
