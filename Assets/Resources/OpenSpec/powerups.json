@@ -1,0 +1,9 @@
+{
+  "powerups": [
+    { "id": "life_01", "x": -5.0, "y": -1.5, "healAmount": 25.0, "respawnSeconds": 20.0, "radius": 0.7 },
+    { "id": "life_02", "x": 1.5, "y": -2.0, "healAmount": 25.0, "respawnSeconds": 20.0, "radius": 0.7 },
+    { "id": "life_03", "x": 8.0, "y": -1.0, "healAmount": 25.0, "respawnSeconds": 20.0, "radius": 0.7 },
+    { "id": "life_04", "x": 12.0, "y": 3.5, "healAmount": 25.0, "respawnSeconds": 20.0, "radius": 0.7 },
+    { "id": "life_05", "x": -9.0, "y": 4.0, "healAmount": 25.0, "respawnSeconds": 20.0, "radius": 0.7 }
+  ]
+}

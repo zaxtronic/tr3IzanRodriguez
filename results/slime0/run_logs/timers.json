@@ -1,0 +1,42 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1774519095",
+        "python_version": "3.10.12 (main, Aug 16 2023, 05:39:07) [GCC 12.2.0]",
+        "command_line_arguments": "/usr/local/bin/mlagents-learn /workspace/ML-Agents/slime.yaml --run-id=slime0",
+        "mlagents_version": "1.2.0.dev0",
+        "mlagents_envs_version": "1.2.0.dev0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.2.2+cu121",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1774519155"
+    },
+    "total": 60.08390605299974,
+    "count": 1,
+    "self": 0.0030322059992613504,
+    "children": {
+        "run_training.setup": {
+            "total": 0.011005267999280477,
+            "count": 1,
+            "self": 0.011005267999280477
+        },
+        "TrainerController.start_learning": {
+            "total": 60.069868579001195,
+            "count": 1,
+            "self": 4.338100006862078e-05,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 60.06980619300157,
+                    "count": 1,
+                    "self": 60.06980619300157
+                },
+                "TrainerController._save_models": {
+                    "total": 1.9004999558092095e-05,
+                    "count": 1,
+                    "self": 1.9004999558092095e-05
+                }
+            }
+        }
+    }
+}

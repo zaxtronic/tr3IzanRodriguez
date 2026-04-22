@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c75a71e1c3cd40c46a65460180eee68f, type: 3}
+  m_Name: Item Action Sword Attack
+  m_EditorClassIdentifier: 
+  damageVolumePool: {fileID: 11400000, guid: d3e7bf6251adc8848b849e81d22eeb54, type: 2}
+  targetTags:
+  - Enemy
+  damage: 1
+  speed: 2
+  attackDistance: 0.20
+  useAdvancedTimings: 1
+  windupTime: 0.05
+  activeTime: 0.10
+  recoveryTime: 0.10
+  hitboxSize: {x: 0.45, y: 0.45}
+  lungeDistance: 0
+  lungeDuration: 0
+  attackerHitStopTime: 0.04
+  targetHitStopTime: 0.06
+  freezeMovementDuringAttack: 1
+  useLiveAimDuringAttack: 1
+  aimUpdateRate: 0
+  hitMultipleTargets: 1
+  attackType: 1

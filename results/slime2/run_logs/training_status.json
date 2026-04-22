@@ -1,0 +1,29 @@
+{
+    "SlimeBehavior": {
+        "checkpoints": [
+            {
+                "steps": 68088,
+                "file_path": "results/slime2/SlimeBehavior/SlimeBehavior-68088.onnx",
+                "reward": null,
+                "creation_time": 1774518253.7470613,
+                "auxillary_file_paths": [
+                    "results/slime2/SlimeBehavior/SlimeBehavior-68088.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 68088,
+            "file_path": "results/slime2/SlimeBehavior.onnx",
+            "reward": null,
+            "creation_time": 1774518253.7470613,
+            "auxillary_file_paths": [
+                "results/slime2/SlimeBehavior/SlimeBehavior-68088.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
