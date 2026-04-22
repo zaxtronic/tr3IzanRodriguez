@@ -1,89 +1,131 @@
-# Memòria - Ús d'IA amb Spec-Driven Development (OpenSpec)
+# Memòria de Pràctica - Ús d'IA amb Spec-Driven Development (OpenSpec)
 
-## 1. Funcionalitat escollida
+Projecte: `tr3IzanRodriguez`  
+Data: 22/04/2026  
+Feature treballada: `add-health-powerups`
 
-### Feature
-Implementació de **powerups de vida** distribuïts pel mapa principal del joc (`Core`), configurats per especificació i no per valors hardcodejats.
+## 1) Explicació de la funcionalitat
 
-### Justificació
-El joc no disposava d'un mecanisme clar de recuperació de vida en exploració/combat. Això reduïa la durada de les sessions i la qualitat del loop de joc. La feature és acotada, verificable i adequada per aplicar SDD amb IA.
+La funcionalitat implementada és un sistema de **powerups de vida** distribuïts pel mapa principal (`Core`).
 
-## 2. Especificació (OpenSpec)
+Quan el jugador passa per sobre d'un pickup:
+- si té component `Health`, rep curació,
+- el pickup desapareix temporalment,
+- i torna a aparèixer passat un temps de respawn configurat.
 
-La funcionalitat s'ha definit amb OpenSpec a la change:
-- `openspec/changes/add-health-powerups/`
+La part important és que no està hardcodejada: la posició i valors de cada pickup es defineixen en una especificació/configuració declarativa (`powerups.json`), de manera que podem ajustar el balanç del joc sense tocar la lògica C#.
 
-Documents de definició:
-- `proposal.md` (equivalent a context/objectiu/restriccions)
-- `design.md` (decisions tècniques, riscos i mitigacions)
-- `specs/health-powerups/spec.md` (comportament esperat)
-- `tasks.md` (estratègia d'implementació)
+## 2) Procés seguit amb la IA
 
-### Correspondència amb el format demanat
-- `foundations.md` -> cobert per `proposal.md` + seccions de context de `design.md`
-- `spec.md` -> cobert per `specs/health-powerups/spec.md`
-- `plan.md` -> cobert per `tasks.md`
+He seguit un flux Spec-Driven real, no improvisat:
 
-## 3. Procés seguit amb IA
+1. Preparació d'entorn
+- Instal·lació i validació d'OpenSpec CLI.
+- Inicialització d'OpenSpec al repositori.
 
-### Fase PROPOSE
-1. Inicialització d'OpenSpec al repositori.
-2. Creació de la change `add-health-powerups`.
-3. Redacció guiada per IA de proposta, disseny, requisits i pla de tasques.
+2. Definició formal abans de programar
+- `proposal.md`: per què calia la funcionalitat i quin impacte tindria.
+- `design.md`: decisions tècniques, riscos i límits.
+- `spec.md`: requisits verificables (spawn, curació, respawn).
+- `tasks.md`: pla d'implementació en passos petits.
 
-### Fase APPLY
-1. Implementació de model de configuració (`OpenSpecPowerupSpec.cs`).
-2. Implementació de pickup i curació (`HealthPowerupPickup.cs`).
-3. Implementació de spawner runtime (`OpenSpecPowerupSpawner.cs`).
-4. Config inicial declarativa (`Assets/Resources/OpenSpec/powerups.json`).
-5. Validació de change i comprovació de build.
+3. Implementació guiada per la spec
+- Càrrega de la spec (`OpenSpecPowerupSpec.cs`).
+- Comportament del pickup (`HealthPowerupPickup.cs`).
+- Spawn runtime a `Core` (`OpenSpecPowerupSpawner.cs`).
+- Config inicial (`Assets/Resources/OpenSpec/powerups.json`).
 
-## 4. Resultat funcional
+4. Validació
+- Tancament de tasques i validació de la change.
+- Comprovació de build per assegurar que no era només teoria.
 
-La feature implementada compleix el comportament principal definit:
-- Spawn automàtic en escena `Core` segons spec.
-- Curació del jugador quan entra al trigger del pickup.
-- No consum del pickup si l'entitat no té component `Health`.
-- Respawn automàtic segons `respawnSeconds`.
+## 3) Principals problemes trobats
 
-## 5. Problemes trobats i decisions preses
+### Problema 1: risc de “fer codi massa aviat”
+Al principi era fàcil caure en el típic flux de provar prompts i anar tocant codi sense tenir la definició tancada.
 
-### Problema 1: risc de saltar directament a implementació
-- Risc: perdre traçabilitat i coherència amb la metodologia.
-- Decisió: forçar ordre spec-driven (`proposal -> design -> spec -> tasks -> apply`).
-- Impacte: millor control de requisits i verificació.
+### Problema 2: traçabilitat insuficient
+Tot i que la funcionalitat funcionava, sense evidència ordenada de prompts, errors i correccions la pràctica quedava fluixa a nivell d'avaluació.
 
-### Problema 2: evidència insuficient de validació
-- Risc: no demostrar ús real d'IA guiat per especificació.
-- Decisió: registrar prompts en log cronològic i validar change formalment.
-- Impacte: entrega auditable.
+### Problema 3: tendència de la IA a donar solucions massa “optimistes”
+La IA sovint assumeix que una implementació és bona si compila o sembla coherent, però això no garanteix que estigui completament alineada amb el comportament definit al spec.
 
-## 6. Anàlisi crítica (reflexió)
+## 4) Decisions preses (canvis en prompts o spec)
 
-### L'agent ha seguit realment l'especificació?
-Sí, de manera majoritària. La implementació final respecta els tres requisits clau de la spec (spawn, curació, respawn).
+### Decisió A: imposar ordre metodològic
+Canvi de prompt:
+- de: "implementa els powerups"
+- a: "primer proposal/design/spec/tasks, després apply"
 
-### Quantes iteracions han estat necessàries?
-7 iteracions significatives (3 definició, 2 implementació, 2 refinament/correcció).
+Resultat:
+- millor control de requisits,
+- menys desviacions,
+- procés més auditable.
 
-### On falla més la IA?
-En consistència metodològica si no se li imposa ordre de treball estricte. També tendeix a donar per bona una implementació sense prou evidència formal si no es demana explícitament validació i traçabilitat.
+### Decisió B: forçar validació explícita
+Canvi de prompt:
+- de: "ja està implementat"
+- a: "valida formalment la change i deixa evidència"
 
-### S'ha hagut de modificar l'especificació o només prompts?
-Principalment prompts i forma d'execució. La base de l'especificació s'ha mantingut estable; els canvis més rellevants han estat de control del procés i de validació.
+Resultat:
+- no dependre de percepcions,
+- tenir comprovació objectiva.
 
-## 7. Traçabilitat requerida
+### Decisió C: reforçar traçabilitat
+Canvi de prompt:
+- de: "fes un resum"
+- a: "fes log cronològic amb error -> correcció -> impacte"
 
-La traçabilitat completa està documentada a:
-- `docs/prompts-log.md`
+Resultat:
+- es veu clarament què va fallar,
+- què es va canviar,
+- i per què es va canviar.
 
-Inclou:
-- prompts de definició,
-- prompts d'implementació,
-- prompts de correcció/refinament,
-- errors detectats,
-- relació entre problema i canvi de prompt.
+## 5) Valoració crítica real (no superficial)
 
-## 8. Valoració final
+En aquesta pràctica, la IA ha estat útil de veritat, però **només** quan s'ha treballat amb disciplina.
 
-L'ús d'IA ha estat útil per accelerar l'escriptura d'especificacions i l'execució tècnica, però el resultat només és fiable quan hi ha control explícit del procés (ordre, criteris de validació i evidència de traçabilitat). El valor real no ha estat "que la IA ho faci sola", sinó dirigir-la amb una especificació formal i revisar cada iteració.
+Punts forts:
+- accelera molt la redacció inicial d'especificacions,
+- ajuda a transformar requisits en tasques concretes,
+- facilita iterar ràpidament en implementació.
+
+Punts febles observats:
+- si el prompt és ambigu, la IA omple buits amb suposicions,
+- tendeix a avançar massa ràpid cap a implementació,
+- pot donar una falsa sensació de "ja està" sense prou verificació.
+
+Conclusió personal:
+- El valor no és "deixar que la IA programi sola".
+- El valor és saber **dirigir-la amb una especificació formal**, revisar el resultat i corregir desviacions amb criteri.
+- Quan això es fa bé, el resultat és consistent, defensable i avaluable.
+
+## 6) Traçabilitat i anàlisi del procés (checklist)
+
+Per a cada criteri:
+- ✔️ `Compleix el criteri`
+- ❌ `No compleix el criteri`
+
+- ✔️ He registrat tots els prompts en un `prompts-log.md`.
+- ✔️ He documentat errors detectats durant el procés.
+- ✔️ He explicat com he corregit cada error.
+- ✔️ He relacionat cada problema amb el canvi en el prompt o en l'especificació.
+- ✔️ He fet una reflexió crítica sobre el resultat final i el comportament de la IA.
+
+## 7) Evidències i fitxers entregables
+
+- OpenSpec change:
+  - `openspec/changes/add-health-powerups/proposal.md`
+  - `openspec/changes/add-health-powerups/design.md`
+  - `openspec/changes/add-health-powerups/specs/health-powerups/spec.md`
+  - `openspec/changes/add-health-powerups/tasks.md`
+
+- Implementació:
+  - `Assets/Scripts/OpenSpec/OpenSpecPowerupSpec.cs`
+  - `Assets/Scripts/OpenSpec/HealthPowerupPickup.cs`
+  - `Assets/Scripts/OpenSpec/OpenSpecPowerupSpawner.cs`
+  - `Assets/Resources/OpenSpec/powerups.json`
+
+- Traçabilitat:
+  - `docs/prompts-log.md`
+
