@@ -100,17 +100,15 @@ Conclusió personal:
 - El valor és saber **dirigir-la amb una especificació formal**, revisar el resultat i corregir desviacions amb criteri.
 - Quan això es fa bé, el resultat és consistent, defensable i avaluable.
 
-## 6) Traçabilitat i anàlisi del procés (checklist)
+## 6) Traçabilitat i anàlisi del procés
 
-Per a cada criteri:
-- ✔️ `Compleix el criteri`
-- ❌ `No compleix el criteri`
+En aquesta entrega es cobreixen tots els punts de traçabilitat exigits:
 
-- ✔️ He registrat tots els prompts en un `prompts-log.md`.
-- ✔️ He documentat errors detectats durant el procés.
-- ✔️ He explicat com he corregit cada error.
-- ✔️ He relacionat cada problema amb el canvi en el prompt o en l'especificació.
-- ✔️ He fet una reflexió crítica sobre el resultat final i el comportament de la IA.
+- Tots els prompts utilitzats durant definició, implementació i refinament estan registrats a `docs/prompts-log.md`.
+- Els errors detectats durant el procés estan documentats de forma explícita.
+- Cada error inclou la correcció aplicada i el seu efecte.
+- S'explica la relació directa entre cada problema i el canvi de prompt (o d'enfocament d'especificació).
+- La memòria inclou una reflexió crítica final sobre el comportament de la IA i la qualitat del resultat.
 
 ## 7) Evidències i fitxers entregables
 
@@ -128,4 +126,3 @@ Per a cada criteri:
 
 - Traçabilitat:
   - `docs/prompts-log.md`
-
