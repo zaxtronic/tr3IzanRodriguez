@@ -10,25 +10,13 @@
 
 Projecte de videojoc 2D desenvolupat amb Unity, amb backend Node.js per funcionalitats de xarxa, serveis de joc i suport de temps real. També inclou integració amb ML-Agents per entrenament d'agents.
 
-## Gestor de tasques
-
-- Pendent d'afegir (Taiga/Jira/Trello): `URL`
-
-## Prototip gràfic
-
-- Pendent d'afegir (Penpot/Figma/Moqups): `URL`
-
-## URL de producció
-
-- Pendent de desplegament: `URL`
-
 ## Estat
 
 El projecte està en desenvolupament actiu.
 - Joc base i estructura principal disponibles.
 - Components de xarxa (client Unity + backend) implementats.
 - Integració amb entrenament ML-Agents present.
-- Falta consolidar URLs de gestió/prototip i entorn de producció.
+- Falta consolidar processos de gestió i desplegament.
 
 ---
 
@@ -172,7 +160,7 @@ Canvi detectat:
 
 - Afegir `backend/node_modules/` a `.gitignore`.
 - Valorar moure `results/` i dumps pesats a emmagatzematge extern.
-- Definir i documentar variables d'entorn (`.env`) per ports i URLs.
+- Definir i documentar variables d'entorn (`.env`) per ports i serveis.
 - Afegir un diagrama de flux (Unity client -> gateway -> serveis backend).
 
 ## 10) Llicència
