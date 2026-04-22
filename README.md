@@ -8,7 +8,7 @@
 
 ## Petita descripció
 
-Projecte de videojoc 2D desenvolupat amb Unity, amb backend Node.js per funcionalitats de xarxa, serveis de joc i suport de temps real. També inclou integració amb ML-Agents per entrenament d'agents.
+Joc 2D d'aventura, exploració i combat inspirat en l'estil de Terraria. El jugador recorre escenaris oberts, interactua amb el món (inventari, objectes, cultius i recursos), combat enemics i progressa mitjançant sistemes de joc modulars (temps, clima, guardat i warps entre zones). El projecte està desenvolupat amb Unity i es complementa amb un backend Node.js per funcionalitats de xarxa i serveis en temps real, a més d'integració amb ML-Agents per proves i entrenament d'agents.
 
 ## Estat
 
